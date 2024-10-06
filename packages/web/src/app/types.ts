@@ -8,5 +8,4 @@ export interface Result {
     option: string;
     monthlyPayment: number;
     totalInterest: number;
-    totalCost: number;
 }
