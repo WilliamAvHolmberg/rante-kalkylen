@@ -15,6 +15,7 @@ Räntekalkyl is an open-source application designed to help users calculate and 
 - Anonymous sharing of current mortgage rates
 - Open-source codebase for transparency and community contributions
 
+
 ## Getting Started
 
 To run the project locally:
@@ -52,3 +53,48 @@ This project is open source and available under the [MIT License](LICENSE).
 - Your name could be here! Contribute and join the list
 
 Remember: In "raw dog" we trust, but verify before you mortgage!
+
+
+
+
+# Mortgage Rate Forecast Platform Roadmap
+
+## Phase 1: Data Collection and Processing
+- [ ] Extract forecasts from all banks
+  - [ ] Implement PDF parsing functionality
+  - [ ] Integrate OpenAI API for data extraction
+- [ ] Set up nightly cron job to update forecasts
+- [ ] Develop automated news article summarizer
+  - [ ] Extract forecasts from news articles
+- [ ] Integrate with Telegram bot for daily notifications
+- [ ] Implement user feedback system
+  - [ ] Set up Telegram channel for receiving user feedback
+  - [ ] Create process for reviewing and addressing user feedback
+
+## Phase 2: User Interface and Customization
+- [ ] Implement forecast selection feature
+  - [ ] Allow users to choose which forecasts to view
+- [ ] Create loan management system
+  - [ ] Enable users to input their current loans
+  - [ ] Display best forecasts based on user's loan portfolio
+
+## Phase 3: User-Generated Content
+- [ ] Develop forecast upload functionality
+  - [ ] Allow users to submit their own forecasts
+- [ ] Create a browsing system for user-generated forecasts
+
+## Phase 4: Community Engagement
+- [ ] Implement voting system for forecast accuracy
+- [ ] Design points and badges system for user contributions
+- [ ] Develop commenting and discussion features for forecasts
+
+## Phase 5: Advanced Features and Optimization
+- [ ] Refine UI/UX based on user feedback
+- [ ] Implement advanced analytics for forecast comparison
+- [ ] Optimize performance and scalability
+
+## Future Considerations
+- [ ] Mobile app development
+- [ ] Integration with financial planning tools
+- [ ] Partnerships with financial institutions
+

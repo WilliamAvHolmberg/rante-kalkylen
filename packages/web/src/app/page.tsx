@@ -11,6 +11,7 @@ import ExpectedRatesInputs from "@/components/ExpectedRatesInputs"
 import ResultsTable from "@/components/ResultsTable"
 import RecommendationAlert from "@/components/RecommendationAlert"
 import AdditionalInfo from "@/components/AdditionalInfo"
+import MonthlyBreakdownTable from "@/components/MonthlyBreakdownTable"
 
 export default function RantebindningskalkylatorComponent() {
   const [loanAmount, setLoanAmount] = useState<number>(2000000)
@@ -20,10 +21,26 @@ export default function RantebindningskalkylatorComponent() {
   const [results, setResults] = useState<Result[] | null>(null)
   const [recommendation, setRecommendation] = useState<string>("")
   const [expectedRates, setExpectedRates] = useState<number[]>([])
+  const [startDate, setStartDate] = useState<Date>(new Date())
+
+  const LOCK_PERIOD_MONTHS = 3; // This should match the value in ExpectedRatesChart.tsx
 
   useEffect(() => {
-    setExpectedRates(Array(fixedRateYears * 12).fill(currentVariableRate))
-  }, [fixedRateYears, currentVariableRate])
+    // Initialize expectedRates only if it's empty
+    if (expectedRates.length === 0) {
+      setExpectedRates(Array(Math.ceil(fixedRateYears * 4)).fill(currentVariableRate))
+    }
+  }, [fixedRateYears, currentVariableRate, expectedRates.length])
+
+  const handleFixedRateYearsChange = (newYears: number) => {
+    setFixedRateYears(newYears)
+    const newPeriodsCount = Math.ceil(newYears * 4)
+    if (newPeriodsCount > expectedRates.length) {
+      // If increasing years, add new periods with the current variable rate
+      setExpectedRates([...expectedRates, ...Array(newPeriodsCount - expectedRates.length).fill(currentVariableRate)])
+    }
+    // If decreasing years, the extra periods will be automatically ignored in calculations
+  }
 
   const handleCalculate = () => {
     const rateOptions: RateOption[] = [
@@ -57,18 +74,28 @@ export default function RantebindningskalkylatorComponent() {
           <FixedRateInputs
             fixedRateYears={fixedRateYears}
             fixedRatePercentage={fixedRatePercentage}
-            setFixedRateYears={setFixedRateYears}
+            setFixedRateYears={handleFixedRateYearsChange}
             setFixedRatePercentage={setFixedRatePercentage}
           />
           <ExpectedRatesInputs
             expectedRates={expectedRates}
             setExpectedRates={setExpectedRates}
+            startDate={startDate}
+            setStartDate={setStartDate}
+            fixedRateYears={fixedRateYears}
           />
           <Button onClick={handleCalculate}>Beräkna</Button>
           {results && (
             <>
               <ResultsTable results={results} fixedRateYears={fixedRateYears} />
               <RecommendationAlert recommendation={recommendation} />
+              <MonthlyBreakdownTable
+                loanAmount={loanAmount}
+                startDate={startDate}
+                fixedRateYears={fixedRateYears}
+                fixedRate={fixedRatePercentage}
+                expectedRates={expectedRates}
+              />
             </>
           )}
           <AdditionalInfo />
